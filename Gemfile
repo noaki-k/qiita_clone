@@ -40,8 +40,8 @@ gem 'active_model_serializers'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.1.0', require: false
 gem 'devise_token_auth'
-gem 'omniauth'
-gem 'rack-cors', :require => 'rack/cors'
+#gem 'omniauth'
+#gem 'rack-cors', :require => 'rack/cors'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
