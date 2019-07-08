@@ -10,107 +10,82 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
 ActiveRecord::Schema.define(version: 2019_07_08_083838) do
-=======
-ActiveRecord::Schema.define(version: 2019_07_08_090206) do
->>>>>>> generate models and make the db
-
-  create_table "article_likes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "article_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["article_id"], name: "index_article_likes_on_article_id"
-    t.index ["user_id"], name: "index_article_likes_on_user_id"
+  create_table 'article_likes', options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8', force: :cascade do |t|
+    t.bigint 'user_id'
+    t.bigint 'article_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['article_id'], name: 'index_article_likes_on_article_id'
+    t.index ['user_id'], name: 'index_article_likes_on_user_id'
   end
 
-  create_table "articles", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "title"
-    t.text "text"
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_articles_on_user_id"
+  create_table 'articles', options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8', force: :cascade do |t|
+    t.string 'title'
+    t.text 'text'
+    t.bigint 'user_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['user_id'], name: 'index_articles_on_user_id'
   end
 
-  create_table "comment_likes", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.bigint "user_id"
-    t.bigint "comment_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["comment_id"], name: "index_comment_likes_on_comment_id"
-    t.index ["user_id"], name: "index_comment_likes_on_user_id"
+  create_table 'comment_likes', options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8', force: :cascade do |t|
+    t.bigint 'user_id'
+    t.bigint 'comment_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['comment_id'], name: 'index_comment_likes_on_comment_id'
+    t.index ['user_id'], name: 'index_comment_likes_on_user_id'
   end
 
-  create_table "comments", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.text "text"
-    t.bigint "user_id"
-<<<<<<< HEAD
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-=======
-    t.bigint "article_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["article_id"], name: "index_comments_on_article_id"
->>>>>>> generate models and make the db
-    t.index ["user_id"], name: "index_comments_on_user_id"
+  create_table 'comments', options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8', force: :cascade do |t|
+    t.text 'text'
+    t.bigint 'user_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['user_id'], name: 'index_comments_on_user_id'
   end
 
-  create_table "user_details", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "avatar"
-    t.string "sns_account"
-    t.text "introduction"
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["user_id"], name: "index_user_details_on_user_id"
+  create_table 'user_details', options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8', force: :cascade do |t|
+    t.string 'avatar'
+    t.string 'sns_account'
+    t.text 'introduction'
+    t.bigint 'user_id'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['user_id'], name: 'index_user_details_on_user_id'
   end
 
-  create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8", force: :cascade do |t|
-    t.string "provider", default: "email", null: false
-    t.string "uid", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at"
-    t.boolean "allow_password_change", default: false
-    t.datetime "remember_created_at"
-<<<<<<< HEAD
-    t.string "confirmation_token"
-    t.datetime "confirmed_at"
-    t.datetime "confirmation_sent_at"
-    t.string "unconfirmed_email"
-    t.string "name"
-    t.string "nickname"
-    t.string "image"
-    t.string "email"
-    t.text "tokens"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["confirmation_token"], name: "index_users_on_confirmation_token", unique: true
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
-    t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
-=======
-    t.string "name"
-    t.string "email"
-    t.string "password"
-    t.text "tokens"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
->>>>>>> generate models and make the db
+  create_table 'users', options: 'ENGINE=InnoDB DEFAULT CHARSET=utf8', force: :cascade do |t|
+    t.string 'provider', default: 'email', null: false
+    t.string 'uid', default: '', null: false
+    t.string 'encrypted_password', default: '', null: false
+    t.string 'reset_password_token'
+    t.datetime 'reset_password_sent_at'
+    t.boolean 'allow_password_change', default: false
+    t.datetime 'remember_created_at'
+    t.string 'confirmation_token'
+    t.datetime 'confirmed_at'
+    t.datetime 'confirmation_sent_at'
+    t.string 'unconfirmed_email'
+    t.string 'name'
+    t.string 'nickname'
+    t.string 'image'
+    t.string 'email'
+    t.text 'tokens'
+    t.datetime 'created_at', null: false
+    t.datetime 'updated_at', null: false
+    t.index ['confirmation_token'], name: 'index_users_on_confirmation_token', unique: true
+    t.index ['email'], name: 'index_users_on_email', unique: true
+    t.index ['reset_password_token'], name: 'index_users_on_reset_password_token', unique: true
+    t.index ['uid', 'provider'], name: 'index_users_on_uid_and_provider', unique: true
   end
 
-  add_foreign_key "article_likes", "articles"
-  add_foreign_key "article_likes", "users"
-  add_foreign_key "articles", "users"
-  add_foreign_key "comment_likes", "comments"
-  add_foreign_key "comment_likes", "users"
-<<<<<<< HEAD
-=======
-  add_foreign_key "comments", "articles"
->>>>>>> generate models and make the db
-  add_foreign_key "comments", "users"
-  add_foreign_key "user_details", "users"
+  add_foreign_key 'article_likes', 'articles'
+  add_foreign_key 'article_likes', 'users'
+  add_foreign_key 'articles', 'users'
+  add_foreign_key 'comment_likes', 'comments'
+  add_foreign_key 'comment_likes', 'users'
+  add_foreign_key 'comments', 'users'
+  add_foreign_key 'user_details', 'users'
 end
