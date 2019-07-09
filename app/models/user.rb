@@ -5,6 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
   #:confirmable, :omniauthable
   include DeviseTokenAuth::Concerns::User
+<<<<<<< HEAD
 
   #Userと他モデルのリレーションを記述
   has_one :user_detail
@@ -13,6 +14,8 @@ class User < ApplicationRecord
   has_many :comments
   has_many :comment_likes
 <<<<<<< HEAD
+=======
+>>>>>>> parent of 890d9bd... implement relationships
 end
 =======
 end
