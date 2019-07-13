@@ -1,5 +1,5 @@
 class ArticleSerializer < ActiveModel::Serializer
-  attributes :id
+  attributes :id, :title, :text
 
   belongs_to :user
   has_many :article_likes, dependent: :destroy
