@@ -42,4 +42,20 @@ RSpec.describe 'Articles', type: :request do
       end
     end
   end
+
+  #update method
+  describe 'PUTCH /articles/:id' do
+    subject { patch(article_path(article.id), params: params) }
+    let(:params) { { article: { title: Faker::Book.title, created_at: Time.current } } }
+    let(:user) { FactoryBot.create(:user) }
+    let(:article) { FactoryBot.create(:article, user: user) }
+
+    it '指定したarticleのレコードが更新される' do
+      expect { subject }.to change { Article.find(article.id).title }.from(article.title).to (params[:article][:title])
+      expect { subject }.not_to change { Article.find(article.id).text }
+      expect { subject }.not_to change { Article.find(article.id).created_at}
+      expect(response).to have_http_status(200)
+
+    end
+  end
 end
