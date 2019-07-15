@@ -5,14 +5,17 @@ RSpec.describe 'Articles', type: :request do
   describe 'GET /articles' do
     subject { get(articles_path) }
     before do
-      user = FactoryBot.create(:user)
-      create_list(:article, 3, user: user)
+      #PR#38FactoryBotの修正により記述を簡潔に
+      create_list(:article, 3)
     end
     it 'articleの一覧が取得できる' do
       subject
       res = JSON.parse(response.body)
       expect(res.length).to eq 3
-      expect(res[0].keys).to eq ["id", "title", "text", "user", "article_likes", "comment"]
+      #PR#38　article.rbの変更に伴いcomment=>commentsに修正
+      expect(res[0].keys).to eq ["id", "title", "text", "user", "article_likes", "comments"]
+      #PR#38 userのkeyに関するテストを追加
+      expect(res[0]['user'].keys).to eq ["id", "name", "email"]
       expect(response).to have_http_status(200)
     end
   end
@@ -22,8 +25,8 @@ RSpec.describe 'Articles', type: :request do
     subject { get(article_path(article_id)) }
 
     context '指定した id のarticleが存在する場合' do
-      let(:user) { FactoryBot.create(:user) }
-      let(:article) { FactoryBot.create(:article, user: user) }
+      #PR#38FactoryBotの修正により記述を簡潔に
+      let(:article) { create(:article) }
       let(:article_id) { article.id }
 
       it 'articleの値が取得できる' do
@@ -36,7 +39,9 @@ RSpec.describe 'Articles', type: :request do
     end
 
     context '指定した id のarticleが存在しない場合' do
-      let(:article_id) { 99999 }
+      # PR#38：article_idを必ず存在しない番号にするために
+      # 本来は9999をArticle.last.id + 1と書いた方がベター
+      let(:article_id) { 9999 }
       it 'articleが見つからない' do
         expect { subject }. to raise_error ActiveRecord::RecordNotFound
       end
