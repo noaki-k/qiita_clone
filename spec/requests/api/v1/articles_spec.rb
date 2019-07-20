@@ -51,4 +51,19 @@ RSpec.describe 'Articles', type: :request do
       end
     end
   end
+  #update method
+  describe 'PATCH /articles/:id' do
+    subject { patch(api_v1_article_path(article.id), params: params) }
+    let(:params) { { article: { title: Faker::Book.title, created_at: Time.current } } }
+    let(:article) { create(:article) }
+
+    it '指定したarticleのレコードが更新される' do
+      # PR#40
+      expect { subject }.to change{ Article.find(article.id).title }.from(article.title).to(params[:article][:title]) &
+                        not_change{ Article.find(article.id).text } &
+                        not_change { Article.find(article.id).created_at }
+      expect(response).to have_http_status(200)
+
+    end
+  end
 end
