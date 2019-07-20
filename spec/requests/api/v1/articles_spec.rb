@@ -69,7 +69,7 @@ RSpec.describe 'Articles', type: :request do
 
   #destroy method
   describe 'DELETE /articles/:id' do
-    subject { delete api_v1_article_path(article.id) }
+    subject { delete (api_v1_article_path(article.id)) }
     let!(:article) { create(:article) }
 
     it '指定したarticleのレコードが削除される' do
