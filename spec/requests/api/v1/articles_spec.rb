@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Articles', type: :request do
   # index method
   describe 'GET /articles' do
-    subject { get(articles_path) }
+    subject { get(api_v1_articles_path) }
     before do
       #PR#38FactoryBotの修正により記述を簡潔に
       create_list(:article, 3)
@@ -22,7 +22,7 @@ RSpec.describe 'Articles', type: :request do
 
   #show method
   describe 'GET /articles/:id' do
-    subject { get(article_path(article_id)) }
+    subject { get(api_v1_articles_path(article_id)) }
 
     context '指定した id のarticleが存在する場合' do
       #PR#38FactoryBotの修正により記述を簡潔に
@@ -33,18 +33,22 @@ RSpec.describe 'Articles', type: :request do
         subject
         res = JSON.parse(response.body)
         expect(response).to have_http_status(200)
-        expect(res['title']).to eq article.title
-        expect(res['text']).to eq article.text
+        expect(res[0]['id']).to eq article.id
+        expect(res[0]['title']).to eq article.title
+        expect(res[0]['text']).to eq article.text
+        expect(res[0]['user']['id']).to eq article.user.id
+        expect(res[0]['user'].keys).to eq ['id', 'name', 'email']
       end
     end
 
-    context '指定した id のarticleが存在しない場合' do
-      # PR#38：article_idを必ず存在しない番号にするために
-      # 本来は9999をArticle.last.id + 1と書いた方がベター
-      let(:article_id) { 9999 }
-      it 'articleが見つからない' do
-        expect { subject }. to raise_error ActiveRecord::RecordNotFound
-      end
-    end
+    # context '指定した id のarticleが存在しない場合' do
+    #   # PR#38：article_idを必ず存在しない番号にするためにnnp
+    #   # 本来は9999をArticle.last.id + 1と書いた方がベター
+    #   let(:article_id) { 9999 }
+    #   it 'articleが見つからない' do
+
+    #   expect { subject }. to raise_error ActiveRecord::RecordNotFound
+    #   end
+    # end
   end
 end

@@ -1,4 +1,4 @@
-class ArticleSerializer < ActiveModel::Serializer
+class Api::V1::ArticleSerializer < ActiveModel::Serializer
   attributes :id, :title, :text
 
   belongs_to :user
