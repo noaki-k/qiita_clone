@@ -1,6 +1,11 @@
 module Api::V1
+<<<<<<< HEAD
   class ArticlesController < BaseApiController
     before_action :set_article, only: [:show, :update,:destroy]
+=======
+  class ArticlesController < ApplicationController
+    before_action :set_article, only: [:show, :update]
+>>>>>>> 8491838... modify some files following the advice 2
 
     def index
       @articles = Article.all
@@ -16,10 +21,13 @@ module Api::V1
       render json: @article
     end
 
+<<<<<<< HEAD
     def destroy
       @article.destroy!
     end
 
+=======
+>>>>>>> 8491838... modify some files following the advice 2
     private
 
     def set_article
