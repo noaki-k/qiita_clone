@@ -66,4 +66,15 @@ RSpec.describe 'Articles', type: :request do
 
     end
   end
+
+  #destroy method
+  describe 'DELETE /articles/:id' do
+    subject { delete api_v1_article_path(article.id) }
+    let!(:article) { create(:article) }
+
+    it '指定したarticleのレコードが削除される' do
+      expect { subject }.to change { Article.count }.by(-1)
+      expect(response).to have_http_status(200)
+    end
+  end
 end

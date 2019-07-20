@@ -1,6 +1,6 @@
 module Api::V1
   class ArticlesController < ApplicationController
-    before_action :set_article, only: [:show, :update]
+    before_action :set_article, only: [:show, :update,:destroy]
 
     def index
       @articles = Article.all
@@ -13,6 +13,11 @@ module Api::V1
 
     def update
       @article.update!(article_params)
+      render json: @article
+    end
+
+    def destroy
+      @article.destroy!
       render json: @article
     end
 
