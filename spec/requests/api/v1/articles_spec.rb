@@ -5,7 +5,9 @@ RSpec.describe 'Articles', type: :request do
   describe 'GET /articles' do
     subject { get(api_v1_articles_path) }
 
+
     before { create_list(:article, 3) }
+
 
     it 'articleの一覧が取得できる' do
       subject
