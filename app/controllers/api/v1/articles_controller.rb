@@ -26,8 +26,16 @@ module Api::V1
       @article.destroy!
     end
 
+<<<<<<< HEAD
 =======
 >>>>>>> 8491838... modify some files following the advice 2
+=======
+    def create
+      @article = current_user.articles.create!(article_params)
+      render json: @article
+    end
+
+>>>>>>> 03054fb... modify files for crate
     private
 
     def set_article
