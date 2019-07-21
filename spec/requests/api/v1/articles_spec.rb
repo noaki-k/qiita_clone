@@ -5,7 +5,9 @@ RSpec.describe 'Articles', type: :request do
   describe 'GET /articles' do
     subject { get(api_v1_articles_path) }
 
+
     before { create_list(:article, 3) }
+
 
     it 'articleの一覧が取得できる' do
       subject
@@ -47,6 +49,32 @@ RSpec.describe 'Articles', type: :request do
       it 'articleが見つからない' do
         expect { subject }.to raise_error ActiveRecord::RecordNotFound
       end
+    end
+  end
+  #update method
+  describe 'PATCH /articles/:id' do
+    subject { patch(api_v1_article_path(article.id), params: params) }
+    let(:params) { { article: { title: Faker::Book.title, created_at: Time.current } } }
+    let(:article) { create(:article) }
+
+    it '指定したarticleのレコードが更新される' do
+      # PR#40
+      expect { subject }.to change{ Article.find(article.id).title }.from(article.title).to(params[:article][:title]) &
+                        not_change{ Article.find(article.id).text } &
+                        not_change { Article.find(article.id).created_at }
+      expect(response).to have_http_status(200)
+
+    end
+  end
+
+  #destroy method
+  describe 'DELETE /articles/:id' do
+    subject { delete api_v1_article_path(article.id) }
+    let!(:article) { create(:article) }
+
+    it '指定したarticleのレコードが削除される' do
+      expect { subject }.to change { Article.count }.by(-1)
+      expect(response).to have_http_status(204)
     end
   end
 end
