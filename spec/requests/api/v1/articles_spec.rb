@@ -83,7 +83,10 @@ RSpec.describe 'Articles', type: :request do
     subject { post(api_v1_articles_path, params: params) }
 
     let(:params) { { article: attributes_for(:article) } }
-    before { create(:user) }
+
+     # FIXME: devise_token_auth の導入が完了次第修正すること
+    let(:current_user) { create(:user) }
+    before { allow_any_instance_of(Api::V1::BaseApiController).to receive(:current_user).and_return(current_user) }
 
     it "articleのレコードが作成される" do
         expect { subject }.to change { Article.count }.by(1)
