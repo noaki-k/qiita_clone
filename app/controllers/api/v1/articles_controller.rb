@@ -20,6 +20,11 @@ module Api::V1
       @article.destroy!
     end
 
+    def create
+      @article = current_user.articles.create!(article_params)
+      render json: @article
+    end
+
     private
 
     def set_article
