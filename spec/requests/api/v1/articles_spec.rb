@@ -74,7 +74,7 @@ RSpec.describe 'Articles', type: :request do
 
     it '指定したarticleのレコードが削除される' do
       expect { subject }.to change { Article.count }.by(-1)
-      expect(response).to have_http_status(200)
+      expect(response).to have_http_status(204)
     end
   end
 end

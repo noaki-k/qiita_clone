@@ -1,5 +1,5 @@
 module Api::V1
-  class ArticlesController < ApplicationController
+  class ArticlesController < BaseApiController
     before_action :set_article, only: [:show, :update,:destroy]
 
     def index
@@ -18,7 +18,6 @@ module Api::V1
 
     def destroy
       @article.destroy!
-      render json: @article
     end
 
     private
