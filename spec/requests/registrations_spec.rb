@@ -12,8 +12,8 @@ RSpec.describe 'Api::V1::Auth::Registrations', type: :request do
 
         res = JSON.parse(response.body)
         expect(res['status']).to eq 'success'
-        expect(res['data']['id']).to eq(User.last.id)
-        expect(res['data']['email']).to eq(User.last.email)
+        expect(res['data']['id']).to eq User.last.id
+        expect(res['data']['email']).to eq User.last.email
         expect(res['data']['provider']).to eq 'email'
       end
     end

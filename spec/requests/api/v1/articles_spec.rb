@@ -61,9 +61,10 @@ RSpec.describe 'Articles', type: :request do
       let(:article) { create(:article, user: current_user) }
       it '指定したarticleのレコードが更新される' do
         # PR#40
-        expect { subject }.to change{ Article.find(article.id).title }.from(article.title).to(params[:article][:title]) &
-        change{ Article.find(article.id).text } &
-        not_change { Article.find(article.id).created_at }
+        expect { subject }.to change{ Article.find(article.id).title }.
+          from(article.title).to(params[:article][:title]) &
+          change{ Article.find(article.id).text } &
+          not_change { Article.find(article.id).created_at }
         expect(response).to have_http_status(200)
       end
     end
