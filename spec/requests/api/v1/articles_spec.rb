@@ -5,9 +5,7 @@ RSpec.describe 'Articles', type: :request do
   describe 'GET /articles' do
     subject { get(api_v1_articles_path) }
 
-
     before { create_list(:article, 3) }
-
 
     it 'articleの一覧が取得できる' do
       subject
@@ -53,24 +51,31 @@ RSpec.describe 'Articles', type: :request do
   end
   #update method
   describe 'PATCH /articles/:id' do
-    subject { patch(api_v1_article_path(article.id), params: params) }
-    let(:params) { { article: { title: Faker::Book.title, created_at: Time.current } } }
-    let(:article) { create(:article) }
+    subject { patch(api_v1_article_path(article.id), params: params, headers: headers) }
+    let(:current_user) { create(:user) }
 
-    it '指定したarticleのレコードが更新される' do
-      # PR#40
-      expect { subject }.to change{ Article.find(article.id).title }.from(article.title).to(params[:article][:title]) &
-                        not_change{ Article.find(article.id).text } &
-                        not_change { Article.find(article.id).created_at }
-      expect(response).to have_http_status(200)
+    let(:params) { { article: attributes_for(:article) } }
+    let(:headers) { authentication_headers_for(current_user) }
 
+    context "自分が所持している記事のタイトルを更新しようとするとき" do
+      let(:article) { create(:article, user: current_user) }
+      it '指定したarticleのレコードが更新される' do
+        # PR#40
+        expect { subject }.to change{ Article.find(article.id).title }.from(article.title).to(params[:article][:title]) &
+        change{ Article.find(article.id).text } &
+        not_change { Article.find(article.id).created_at }
+        expect(response).to have_http_status(200)
+      end
     end
   end
 
   #destroy method
   describe 'DELETE /articles/:id' do
-    subject { delete (api_v1_article_path(article.id)) }
+    subject { delete(api_v1_article_path(article.id), headers: headers) }
+
     let!(:article) { create(:article) }
+    let(:current_user) { create(:user) }
+    let(:headers) { authentication_headers_for(current_user) }
 
     it '指定したarticleのレコードが削除される' do
       expect { subject }.to change { Article.count }.by(-1)
@@ -80,17 +85,15 @@ RSpec.describe 'Articles', type: :request do
 
   #create method
   describe "POST /articles" do
-    subject { post(api_v1_articles_path, params: params) }
+    subject { post(api_v1_articles_path, params: params, headers: headers) }
 
-    let(:params) { { article: attributes_for(:article) } }
-
-     # FIXME: devise_token_auth の導入が完了次第修正すること
     let(:current_user) { create(:user) }
-    before { allow_any_instance_of(Api::V1::BaseApiController).to receive(:current_user).and_return(current_user) }
+    let(:params) { { article: attributes_for(:article) } }
+    let(:headers) { authentication_headers_for(current_user) }
 
     it "articleのレコードが作成される" do
-        expect { subject }.to change { Article.count }.by(1)
-        expect(response).to have_http_status(200)
+      expect { subject }.to change { Article.count }.by(1)
+      expect(response).to have_http_status(200)
     end
   end
 end
