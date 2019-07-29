@@ -1,10 +1,6 @@
-require 'rails_helper'
+require "rails_helper"
 
-RSpec.describe "Sessions", type: :request do
-  describe "GET /sessions" do
-    it "works! (now write some real specs)" do
-      get sessions_path
-      expect(response).to have_http_status(200)
-    end
+RSpec.describe "Api::V1::Auth::Sessions", type: :request do
+  describe "POST /api/v1/auth/sign_in" do
   end
 end
