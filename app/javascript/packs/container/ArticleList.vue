@@ -14,7 +14,7 @@
 
   @Component
   export default class ArticlesContainer extends Vue {
-    articles: String[] = []
+    articles: string[] = []
 
     async mounted(): Promise<void> {
       await this.fetchArticles();
