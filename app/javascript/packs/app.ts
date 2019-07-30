@@ -1,16 +1,21 @@
-import Vue from 'vue';
-import Router from './router/router';
-import Header from './container/Header.vue';
-import Vuetify from 'vuetify';
+import Vue from "vue";
+import Router from "./router/router";
+import Header from "./container/Header.vue";
+import Vuetify from "vuetify";
+import "vuetify/dist/vuetify.min.css";
+
 
 Vue.use(Vuetify);
+Vue.use(Vuetify, {
+  iconfont: "fa"
+});
 
-document.addEventListener('turbolinks:load', () => {
+document.addEventListener("turbolinks:load", () => {
   new Vue({
-    el: '#app',
+    el: "#app",
     router: Router,
     components: {
       navbar: Header
     }
-  })
-})
+  });
+});
