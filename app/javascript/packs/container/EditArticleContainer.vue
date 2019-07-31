@@ -5,7 +5,7 @@
       outline
       no-resize
       height="100%"
-      v-model="body"
+      v-model="text"
       name="body"
       label="プログラミング知識をMarkdown記法で書いて共有しよう"
       class="body-form"
@@ -32,11 +32,11 @@ const headers = {
 @Component
 export default class ArticlesContainer extends Vue {
   title: string = "";
-  body: string = "";
+  text: string = "";
   async createArticle(): Promise<void> {
     const params = {
       title: this.title,
-      body: this.body
+      text: this.text
     };
     await axios
       .post("/api/v1/articles", params, headers)

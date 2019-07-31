@@ -1,9 +1,9 @@
 <template>
-  <div id="articles-container">
+<div id="articles-container">
     <ul>
       <li v-for="article in articles" v-bind:key="article.id">
         <div>{{article.title}}</div>
-        <div>{{article.body}}</div>
+        <div>{{article.text}}</div>
       </li>
     </ul>
   </div>
