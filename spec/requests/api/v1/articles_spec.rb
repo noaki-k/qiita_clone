@@ -15,7 +15,7 @@ RSpec.describe 'Articles', type: :request do
       expect(res.length).to eq 3
       #PR#38　article.rbの変更に伴いcomment=>commentsに修正
       expect(res.map {|d| d["id"] }).to eq [article3.id, article1.id, article2.id]
-      expect(res[0].keys).to eq ["id", "title", "user"]
+      expect(res[0].keys).to eq ["id", "title","updated_at", "user"]
       #PR#38 userのkeyに関するテストを追加
       expect(res[0]['user'].keys).to eq ["id", "name", "email"]
       expect(response).to have_http_status(200)
