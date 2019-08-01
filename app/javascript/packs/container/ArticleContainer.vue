@@ -59,3 +59,4 @@ export default class ArticleContainer extends Vue {
 .user-name {
   margin-right: 1em;
 }
+</style>
