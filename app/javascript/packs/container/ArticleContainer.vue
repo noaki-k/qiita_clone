@@ -8,7 +8,7 @@
       <h1 class="article-title">{{ article.title }}</h1>
     </v-layout>
     <v-layout class="article-body-container">
-      <div id="article-body">{{ article.body }}</div>
+      <div id="article-body">{{ article.text }}</div>
     </v-layout>
   </v-container>
 </template>
