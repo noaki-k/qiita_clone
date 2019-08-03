@@ -7,6 +7,7 @@ Rails.application.routes.draw do
   get 'sign_in', to: 'homes#index'
   get "articles/new", to: "homes#index"
   get "articles/:id", to: "homes#index"
+  get "mypage", to: "homes#index"
 
 
   namespace :api, format: :json do
@@ -15,6 +16,7 @@ Rails.application.routes.draw do
         registrations: 'api/v1/auth/registrations',
         sessions: 'api/v1/auth/sessions'
       }
+      get '/mypage' => 'mypage#index'
       resources :articles
     end
   end
