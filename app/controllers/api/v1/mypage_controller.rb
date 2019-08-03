@@ -3,7 +3,7 @@ module Api::V1
     before_action :authenticate_user!, only: [:index]
 
     def index
-      articles = current_user.articles.order(updated_at: :desc)
+      articles = current_user.articles.order(created_at: :desc)
       render json: articles, each_serializer: Api::V1::MypageSerializer
     end
   end
