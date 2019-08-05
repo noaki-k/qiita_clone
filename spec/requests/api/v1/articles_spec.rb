@@ -9,12 +9,13 @@ RSpec.describe 'Articles', type: :request do
     let!(:article2) { create(:article, updated_at: 2.days.ago) }
     let!(:article3) { create(:article) }
 
-    it 'articleの一覧が取得できる(更新順)' do
+    it 'statusがpublishedのarticleの一覧が取得できる(更新順)' do
       subject
       res = JSON.parse(response.body)
       expect(res.length).to eq 3
       #PR#38　article.rbの変更に伴いcomment=>commentsに修正
-      expect(res.map {|d| d["id"] }).to eq [article3.id, article1.id, article2.id]
+      expect(res.map { |d| d['id'] }).to eq [article3.id, article1.id, article2.id]
+      expect { res.map { |s| s['status'] }. to eq 'published' }
       expect(res[0].keys).to eq ["id", "title","updated_at", "user"]
       #PR#38 userのkeyに関するテストを追加
       expect(res[0]['user'].keys).to eq ["id", "name", "email"]
@@ -26,7 +27,7 @@ RSpec.describe 'Articles', type: :request do
   describe 'GET /articles/:id' do
     subject { get(api_v1_article_path(article_id)) }
 
-    context '指定した id のarticleが存在する場合' do
+    context '指定した id のarticleが存在し、statusがpublishedである場合' do
       #PR#38FactoryBotの修正により記述を簡潔に
       let(:article) { create(:article) }
       let(:article_id) { article.id }
@@ -41,6 +42,16 @@ RSpec.describe 'Articles', type: :request do
         expect(res["updated_at"]).to be_present
         expect(res['user']['id']).to eq article.user.id
         expect(res['user'].keys).to eq ['id', 'name', 'email']
+        expect { res.map { |s| s['status'] }. to eq 'published' }
+      end
+    end
+
+    context '指定した id のarticleが存在し、statusがdraftである場合' do
+      let(:article) { create(:article, status: 'draft') }
+      let(:article_id) { article.id }
+
+      it 'articleの値が取得できない' do
+        expect { subject }.to raise_error ActiveRecord::RecordNotFound
       end
     end
 
@@ -53,6 +64,7 @@ RSpec.describe 'Articles', type: :request do
       end
     end
   end
+
   #update method
   describe 'PATCH /articles/:id' do
     subject { patch(api_v1_article_path(article.id), params: params, headers: headers) }
@@ -92,13 +104,30 @@ RSpec.describe 'Articles', type: :request do
   describe "POST /articles" do
     subject { post(api_v1_articles_path, params: params, headers: headers) }
 
-    let(:current_user) { create(:user) }
-    let(:params) { { article: attributes_for(:article) } }
-    let(:headers) { authentication_headers_for(current_user) }
+    context 'statusがpublishedのarticleを作成する時' do
+      let(:current_user) { create(:user) }
+      let(:params) { { article: attributes_for(:article, staus: 'published') } }
+      let(:headers) { authentication_headers_for(current_user) }
 
-    it "articleのレコードが作成される" do
-      expect { subject }.to change { Article.count }.by(1)
-      expect(response).to have_http_status(200)
+      it'statusがpublishedのarticleのレコードが作成される' do
+        expect { subject }.to change { Article.count }.by(1)
+        expect(response).to have_http_status(200)
+        res = JSON.parse(response.body)
+        expect(res['status']). to eq 'published'
+      end
+    end
+
+    context 'statusがdraftのarticleを作成する時' do
+      let(:current_user) { create(:user) }
+      let(:params) { { article: attributes_for(:article, status: 'draft') } }
+      let(:headers) { authentication_headers_for(current_user) }
+
+      it 'statusがdraftのarticleのレコードが作成される' do
+        expect { subject }.to change { Article.count }.by(1)
+        expect(response).to have_http_status(200)
+        res = JSON.parse(response.body)
+        expect(res['status']). to eq 'draft'
+      end
     end
   end
 end
