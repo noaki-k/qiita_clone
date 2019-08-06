@@ -15,10 +15,10 @@ RSpec.describe 'Mypages', type: :request do
         subject
         res = JSON.parse(response.body)
         expect(res.length).to eq 3
-        expect(res[0].keys).to eq ['id', 'title', 'text', 'created_at', 'user']
-        expect(res[0]['id']).to eq article3.id
-        expect(res[1]['id']).to eq article1.id
-        expect(res[2]['id']).to eq article2.id
+        expect(res[0].keys).to eq ["id", "title", "text", "created_at", "user"]
+        expect(res[0]['id']).to match(article3.id)
+        expect(res[1]['id']).to match(article1.id)
+        expect(res[2]['id']).to match(article2.id)
         expect(response).to have_http_status(200)
       end
     end

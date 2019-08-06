@@ -16,7 +16,7 @@ Rails.application.routes.draw do
         registrations: 'api/v1/auth/registrations',
         sessions: 'api/v1/auth/sessions'
       }
-      get '/mypage' => 'mypage#index'
+      get '/mypage', to: 'mypage#index'
       resources :articles
     end
   end
