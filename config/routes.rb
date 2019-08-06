@@ -3,12 +3,11 @@ Rails.application.routes.draw do
   root 'homes#index'
 
   # reload 対策
-  get "sign_up", to: "homes#index"
+  get 'sign_up', to: 'homes#index'
   get 'sign_in', to: 'homes#index'
-  get "articles/new", to: "homes#index"
-  get "articles/:id", to: "homes#index"
-  get "mypage", to: "homes#index"
-
+  get 'articles/new', to: 'homes#index'
+  get 'articles/:id', to: 'homes#index'
+  get 'mypage', to: 'homes#index'
 
   namespace :api, format: :json do
     namespace :v1 do
@@ -16,7 +15,7 @@ Rails.application.routes.draw do
         registrations: 'api/v1/auth/registrations',
         sessions: 'api/v1/auth/sessions'
       }
-      get '/mypage' => 'mypage#index'
+      get '/mypage', to: 'mypage#index'
       resources :articles
     end
   end
