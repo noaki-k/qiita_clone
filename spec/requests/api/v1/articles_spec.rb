@@ -47,7 +47,7 @@ RSpec.describe 'Articles', type: :request do
     end
 
     context '指定した id のarticleが存在し、statusがdraftである場合' do
-      let(:article) { create(:article, status: 'draft') }
+      let(:article) { create(:article, :draft) }
       let(:article_id) { article.id }
 
       it 'articleの値が取得できない' do
@@ -106,27 +106,23 @@ RSpec.describe 'Articles', type: :request do
 
     context 'statusがpublishedのarticleを作成する時' do
       let(:current_user) { create(:user) }
-      let(:params) { { article: attributes_for(:article, staus: 'published') } }
+      let(:params) { { article: attributes_for(:article, :published) } }
       let(:headers) { authentication_headers_for(current_user) }
 
       it'statusがpublishedのarticleのレコードが作成される' do
-        expect { subject }.to change { Article.count }.by(1)
+        expect { subject }.to change { Article.published.count }.by(1)
         expect(response).to have_http_status(200)
-        res = JSON.parse(response.body)
-        expect(res['status']). to eq 'published'
       end
     end
 
     context 'statusがdraftのarticleを作成する時' do
       let(:current_user) { create(:user) }
-      let(:params) { { article: attributes_for(:article, status: 'draft') } }
+      let(:params) { { article: attributes_for(:article, :draft) } }
       let(:headers) { authentication_headers_for(current_user) }
 
       it 'statusがdraftのarticleのレコードが作成される' do
-        expect { subject }.to change { Article.count }.by(1)
+        expect { subject }.to change { Article.draft.count }.by(1)
         expect(response).to have_http_status(200)
-        res = JSON.parse(response.body)
-        expect(res['status']). to eq 'draft'
       end
     end
   end
