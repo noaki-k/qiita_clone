@@ -20,6 +20,7 @@ RSpec.describe 'Mypages', type: :request do
         expect(res[1]['id']).to match(article1.id)
         expect(res[2]['id']).to match(article2.id)
         expect(response).to have_http_status(200)
+        expect { res.map { |s| s['status'] }. to eq 'published' }
       end
     end
   end
