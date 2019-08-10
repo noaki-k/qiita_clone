@@ -6,6 +6,8 @@ Rails.application.routes.draw do
   get 'sign_up', to: 'homes#index'
   get 'sign_in', to: 'homes#index'
   get 'articles/new', to: 'homes#index'
+  get 'drafts', to: 'homes#index'
+  get 'draft/:id/edit', to: 'homes#index'
   get 'articles/:id', to: 'homes#index'
   get 'mypage', to: 'homes#index'
 
@@ -16,6 +18,8 @@ Rails.application.routes.draw do
         sessions: 'api/v1/auth/sessions'
       }
       get '/mypage', to: 'mypage#index'
+      get '/drafts', to: 'drafts#index'
+      get '/draft/:id/edit', to: 'drafts#show'
       resources :articles
     end
   end
