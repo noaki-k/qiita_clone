@@ -92,10 +92,10 @@ export default class Header extends Vue {
       });
   }
   moveToMyPage(): void {
-    Router.push("/mypage");
+    alert("マイページへ移動");
   }
   moveToDrafts(): void {
-    Router.push("/articles/drafts");
+    Router.push("/drafts");
   }
   private refresh(): void {
     localStorage.clear();
