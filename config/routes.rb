@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   get 'sign_in', to: 'homes#index'
   get 'articles/new', to: 'homes#index'
   get 'drafts', to: 'homes#index'
-  get 'draft/:id/edit', to: 'homes#index'
+  get 'drafts/:id/edit', to: 'homes#index'
   get 'articles/:id', to: 'homes#index'
   get 'mypage', to: 'homes#index'
 
@@ -19,7 +19,7 @@ Rails.application.routes.draw do
       }
       get '/mypage', to: 'mypage#index'
       get '/drafts', to: 'drafts#index'
-      get '/draft/:id/edit', to: 'drafts#show'
+      get '/drafts/:id/edit', to: 'drafts#show'
       resources :articles
     end
   end

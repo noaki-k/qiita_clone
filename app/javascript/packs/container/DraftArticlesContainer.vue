@@ -62,7 +62,7 @@ export default class DraftArticlesContainer extends Vue {
     });
   }
   moveToEditPage(id: string) {
-    Router.push(`/api/v1/draft/${id}/edit`);
+    Router.push(`/drafts/${id}/edit`);
   }
 }
 </script>

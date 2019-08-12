@@ -22,7 +22,7 @@ export default new VueRouter({
     { path: "/articles/:id", component: ArticleContainer, name: "article" },
     { path: "/mypage", component: MyPageContainer },
     { path: "/drafts", component: DraftArticlesContainer },
-    { path: "/draft/:id/edit", component: EditDraftArticleContainer },
+    { path: "/drafts/:id/edit", component: EditDraftArticleContainer },
     { path: "/articles/:id/edit", component: EditArticleContainer }
   ]
 })
