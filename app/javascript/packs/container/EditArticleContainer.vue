@@ -5,8 +5,8 @@
         outline
         no-resize
         height="100%"
-        v-model="body"
-        name="body"
+        v-model="text"
+        name="text"
         label="プログラミング知識をMarkdown記法で書いて共有しよう"
         class="body-form"
       ></v-textarea>

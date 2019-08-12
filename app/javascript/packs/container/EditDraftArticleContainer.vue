@@ -1,18 +1,15 @@
 <template>
   <form class="article-form">
     <v-text-field outline single-line v-model="title" name="title" label="タイトル" class="title-form"></v-text-field>
-    <div class="edit-area">
       <v-textarea
         outline
         no-resize
         height="100%"
-        v-model="body"
-        name="body"
+        v-model="text"
+        name="text"
         label="プログラミング知識をMarkdown記法で書いて共有しよう"
         class="body-form"
       ></v-textarea>
-      <div v-html="compiledMarkdown(this.text)" class="preview">a</div>
-    </div>
     <div class="text-xs-right">
       <v-btn
         @click="createOrUpdateArticle('published')"
@@ -56,7 +53,7 @@ export default class EditDraftArticleContainer extends Vue {
   }
   async fetchArticle(id: string): Promise<void> {
     await axios
-      .get(`/api/v1/draft/${id}`, headers)
+      .get(`/api/v1/drafts/${id}/edit`, headers)
       .then(response => {
         this.id = response.data.id;
         this.title = response.data.title;
