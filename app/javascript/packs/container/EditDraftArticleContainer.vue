@@ -53,7 +53,7 @@ export default class EditDraftArticleContainer extends Vue {
   }
   async fetchArticle(id: string): Promise<void> {
     await axios
-      .get(`/api/v1/drafts/${id}/edit`, headers)
+      .get(`/api/v1/drafts/${id}`, headers)
       .then(response => {
         this.id = response.data.id;
         this.title = response.data.title;

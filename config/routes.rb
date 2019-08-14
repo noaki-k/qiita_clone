@@ -18,8 +18,7 @@ Rails.application.routes.draw do
         sessions: 'api/v1/auth/sessions'
       }
       get '/mypage', to: 'mypage#index'
-      get '/drafts', to: 'drafts#index'
-      get '/drafts/:id/edit', to: 'drafts#show'
+      resources :drafts, only:[:index, :show]
       resources :articles
     end
   end
