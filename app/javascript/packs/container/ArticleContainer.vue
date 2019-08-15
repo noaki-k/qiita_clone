@@ -23,7 +23,7 @@
       <h1 class="article-title">{{ article.title }}</h1>
     </v-layout>
     <v-layout class="article-body-container">
-      <div id="article-body">{{ article.text }}</div>
+      <div class="article-body" v-html="compiledMarkdown(article.text)"></div>
     </v-layout>
   </v-container>
 </template>
@@ -32,8 +32,9 @@
 import axios from "axios";
 import { Vue, Component } from "vue-property-decorator";
 import TimeAgo from "vue2-timeago";
+import marked from "marked";
+import hljs from "highlight.js";
 import Router from "../router/router";
-
 const headers = {
   headers: {
     Authorization: "Bearer",
@@ -43,7 +44,6 @@ const headers = {
     uid: localStorage.getItem("uid")
   }
 };
-
 @Component({
   components: {
     TimeAgo
@@ -54,7 +54,30 @@ export default class ArticleContainer extends Vue {
   async mounted(): Promise<void> {
     await this.fetchArticle(this.$route.params.id);
   }
-
+  async created(): Promise<void> {
+    const renderer = new marked.Renderer();
+    let data = "";
+    renderer.code = function(code, lang) {
+      const _lang = lang.split(".").pop();
+      try {
+        data = hljs.highlight(_lang, code, true).value;
+      } catch (e) {
+        data = hljs.highlightAuto(code).value;
+      }
+      return `<pre><code class="hljs"> ${data} </code></pre>`;
+    };
+    marked.setOptions({
+      renderer: renderer,
+      tables: true,
+      sanitize: true,
+      langPrefix: ""
+    });
+  }
+  get compiledMarkdown() {
+    return function(text: string) {
+      return marked(text);
+    };
+  }
   get editable(): boolean {
     return localStorage.getItem("uid") === this.article.user.email;
   }
@@ -72,14 +95,13 @@ export default class ArticleContainer extends Vue {
   moveToEditArticlePage(id: string): void {
     Router.push(`/articles/${id}/edit`);
   }
-
   async confirmDeleteArticle(): Promise<void> {
-    const result = confirm("この記事を削除してもよろしいですか？")
+    const result = confirm("この記事を削除してもよろしいですか？");
     if (result) {
       await axios
         .delete(`/api/v1/articles/${this.article.id}`, headers)
         .then(_response => {
-          Router.push("/")
+          Router.push("/");
         })
         .catch(e => {
           // TODO: 適切な Error 表示
@@ -95,7 +117,7 @@ export default class ArticleContainer extends Vue {
   margin-bottom: 1em;
 }
 .article-container {
-  margin: 2em;
+  margin-top: 2em;
 }
 .article-title {
   font-size: 2.5em;
@@ -104,6 +126,9 @@ export default class ArticleContainer extends Vue {
 .article-body-container {
   margin: 2em 0;
   font-size: 16px;
+}
+.article-body {
+  width: 100%;
 }
 .user-name {
   margin-right: 1em;
