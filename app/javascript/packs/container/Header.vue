@@ -95,7 +95,7 @@ export default class Header extends Vue {
     Router.push("/mypage");
   }
   moveToDrafts(): void {
-    Router.push("/articles/drafts");
+    Router.push("/drafts");
   }
   private refresh(): void {
     localStorage.clear();
