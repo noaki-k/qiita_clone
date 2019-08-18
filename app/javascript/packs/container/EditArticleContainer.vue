@@ -12,12 +12,12 @@
       ></v-textarea>
     <div class="text-xs-right">
       <v-btn
-        @click="createArticle('published')"
+        @click="createOrUpdateArticle('published')"
         color="#55c500"
         class="font-weight-bold white--text"
       >Qiitaに投稿</v-btn>
       <v-btn
-        @click="createArticle('draft')"
+        @click="createOrUpdateArticle('draft')"
         color="#55c500"
         class="font-weight-bold white--text"
       >下書き投稿</v-btn>
@@ -40,9 +40,29 @@ const headers = {
 };
 @Component
 export default class ArticlesContainer extends Vue {
+  id: string = "";
   title: string = "";
   text: string = "";
-  async createArticle(status: string): Promise<void> {
+  async mounted(): Promise<void> {
+    // only update
+    if (this.$route.params.id) {
+      await this.fetchArticle(this.$route.params.id);
+    }
+  }
+  async fetchArticle(id: string): Promise<void> {
+    await axios
+      .get(`/api/v1/articles/${id}`)
+      .then(response => {
+        this.id = response.data.id;
+        this.title = response.data.title;
+        this.text = response.data.text;
+      })
+      .catch(e => {
+        // TODO: 適切な Error 表示
+        alert(e.response.statusText);
+      });
+  }
+  async createOrUpdateArticle(status: string): Promise<void> {
     enum Statuses {
       "draft" = "draft",
       "published" = "published"
@@ -52,16 +72,31 @@ export default class ArticlesContainer extends Vue {
       text: this.text,
       status: Statuses[status]
     };
-    await axios
-      .post("/api/v1/articles", params, headers)
-      .then(_response => {
-        // TODO: 下書きの場合は下書き一覧ページに飛ばす
-        Router.push("/drafts");
-      })
-      .catch(e => {
-        // TODO: 適切な Error 表示
-        alert(e.response.data.errors);
-      });
+    if (this.id) {
+      // update
+      await axios
+        .patch(`/api/v1/articles/${this.id}`, params, headers)
+        .then(_response => {
+          // TODO: 下書きの場合は下書き一覧ページに飛ばす
+          Router.push("/");
+        })
+        .catch(e => {
+          // TODO: 適切な Error 表示
+          alert(e.response.data.errors);
+        });
+    } else {
+      // create
+      await axios
+        .post("/api/v1/articles", params, headers)
+        .then(_response => {
+          // TODO: 下書きの場合は下書き一覧ページに飛ばす
+          Router.push("/drafts");
+        })
+        .catch(e => {
+          // TODO: 適切な Error 表示
+          alert(e.response.data.errors);
+        });
+    }
   }
 }
 </script>
