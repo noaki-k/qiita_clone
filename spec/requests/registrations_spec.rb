@@ -42,7 +42,7 @@ RSpec.describe 'Api::V1::Auth::Registrations', type: :request do
     end
 
     context 'すでに存在しているemailを登録しようとした時' do
-      let!(:current_user) { create(:user, email: "test@email.com") }
+      let!(:current_user) { create(:user, email: 'test@email.com') }
       let(:params) { { email: current_user.email } }
       it 'エラーになる' do
         subject
@@ -114,20 +114,20 @@ RSpec.describe 'Api::V1::Auth::Registrations', type: :request do
     subject { delete(destroy_api_v1_user_session_path, params: params, headers: headers) }
     context 'ログインしている時' do
       let(:current_user) { create(:user) }
-      let(:params) { { email: current_user.email, password: current_user.password }}
+      let(:params) { { email: current_user.email, password: current_user.password } }
       let(:headers) { authentication_headers_for(current_user) }
-        it 'サインアウトできる' do
-          post(api_v1_user_session_path, params: params)
-          delete(destroy_api_v1_user_session_path, { headers: {
-            uid: response.headers['uid'],
-            client: response.headers['client'],
-            "access-token": response.headers['access-token']
-          } })
+      it 'サインアウトできる' do
+        post(api_v1_user_session_path, params: params)
+        delete(destroy_api_v1_user_session_path, headers: {
+                 uid: response.headers['uid'],
+                 client: response.headers['client'],
+                 "access-token": response.headers['access-token']
+               })
 
-          res = JSON.parse(response.body)
-          expect(res['success']).to be true
-          expect(response).to have_http_status(200)
-        end
+        res = JSON.parse(response.body)
+        expect(res['success']).to be true
+        expect(response).to have_http_status(200)
+      end
     end
   end
 end

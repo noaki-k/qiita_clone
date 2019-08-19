@@ -15,7 +15,7 @@ RSpec.describe 'Drafts', type: :request do
         subject
         res = JSON.parse(response.body)
         expect(res.length).to eq 3
-        expect(res[0].keys).to eq ['id', 'title','updated_at', 'user']
+        expect(res[0].keys).to eq ['id', 'title', 'updated_at', 'user']
         expect(res[0]['user'].keys).to eq ['id', 'name', 'email']
         expect(response).to have_http_status(200)
       end
@@ -39,7 +39,7 @@ RSpec.describe 'Drafts', type: :request do
           expect(res['text']).to eq article.text
           expect(res['updated_at']).to be_present
           expect(res['user']['id']).to eq article.user.id
-          expect(res['user'].keys).to eq ['id', 'name','email']
+          expect(res['user'].keys).to eq ['id', 'name', 'email']
           expect(response).to have_http_status(200)
         end
       end

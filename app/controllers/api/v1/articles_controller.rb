@@ -1,6 +1,6 @@
 module Api::V1
   class ArticlesController < BaseApiController
-    before_action :set_article, only: [:show,:destroy]
+    before_action :set_article, only: [:show, :destroy]
     before_action :authenticate_user!, only: [:create, :update, :destroy]
 
     def index

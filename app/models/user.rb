@@ -6,7 +6,7 @@ class User < ApplicationRecord
   #:confirmable, :omniauthable
   include DeviseTokenAuth::Concerns::User
 
-  #Userと他モデルのリレーションを記述
+  # Userと他モデルのリレーションを記述
   has_one :user_detail
   has_many :articles, dependent: :destroy
   has_many :article_likes, dependent: :destroy
