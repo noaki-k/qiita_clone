@@ -35,6 +35,7 @@ import TimeAgo from "vue2-timeago";
 import marked from "marked";
 import hljs from "highlight.js";
 import Router from "../router/router";
+
 const headers = {
   headers: {
     Authorization: "Bearer",
