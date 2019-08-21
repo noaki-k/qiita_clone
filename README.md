@@ -12,3 +12,8 @@
 - device_token_authを使用
 ### RSpec, FactorBotを用いたテスト
 ### Herokuによるデプロイ
+
+## 開発環境
+### Ruby 2.5.3
+### Rails 5.2.3
+### PostgreSQL
