@@ -1,6 +1,7 @@
 <template>
   <form class="article-form">
     <v-text-field outline single-line v-model="title" name="title" label="タイトル" class="title-form"></v-text-field>
+    <div class="edit-area">
       <v-textarea
         outline
         no-resize
@@ -10,6 +11,8 @@
         label="プログラミング知識をMarkdown記法で書いて共有しよう"
         class="body-form"
       ></v-textarea>
+      <div v-html="compiledMarkdown(this.text)" class="preview">a</div>
+    </div>
     <div class="text-xs-right">
       <v-btn
         @click="createOrUpdateArticle('published')"
@@ -29,6 +32,9 @@
 import axios from "axios";
 import { Vue, Component } from "vue-property-decorator";
 import Router from "../router/router";
+import marked from "marked";
+import hljs from "highlight.js";
+
 const headers = {
   headers: {
     Authorization: "Bearer",
@@ -43,6 +49,31 @@ export default class ArticlesContainer extends Vue {
   id: string = "";
   title: string = "";
   text: string = "";
+  async created(): Promise<void> {
+    // Add 'hljs' class to code tag
+    const renderer = new marked.Renderer();
+    let data = "";
+    renderer.code = function(code, lang) {
+        const _lang = lang.split(".").pop();
+      try {
+        data = hljs.highlight(_lang, code, true).value;
+      } catch (e) {
+        data = hljs.highlightAuto(code).value;
+      }
+      return `<pre><code class="hljs"> ${data} </code></pre>`;
+    };
+    marked.setOptions({
+      renderer: renderer,
+      tables: true,
+      sanitize: true,
+      langPrefix: ""
+    });
+  }
+  get compiledMarkdown() {
+    return function(text: string) {
+      return marked(text);
+    };
+  }
   async mounted(): Promise<void> {
     // only update
     if (this.$route.params.id) {
@@ -133,5 +164,20 @@ export default class ArticlesContainer extends Vue {
 }
 .v-text-field .v-text-field__details {
   display: none;
+}
+
+.edit-area {
+  height: 100%;
+  display: flex;
+  overflow: hidden;
+}
+.preview {
+  width: 50%;
+  padding: 12px;
+  margin-bottom: 8px;
+  border: 2px solid rgba(0, 0, 0, 0.54);
+  border-radius: 4px;
+  border-left: none;
+  overflow: auto;
 }
 </style>
