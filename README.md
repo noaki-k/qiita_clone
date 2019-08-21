@@ -1,24 +1,14 @@
-# README
+## README
+## アプリ概要
+### ・ プログラマのための技術情報共有サービスQiitaのクローンアプリ
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
-
-Things you may want to cover:
-
-* Ruby version
-
-* System dependencies
-
-* Configuration
-
-* Database creation
-
-* Database initialization
-
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+## 実装機能、使用技術
+### 記事のCRUD機能 
+- MarkDown記法による記事の投稿、編集機能
+- Syntax Highligh機能による記事の閲覧機能
+- リアルタイムプレビューによる記事の閲覧機能
+  
+### ユーザ登録、ログイン・ログアウト機能
+- device_token_authを使用
+### RSpec, FactorBotを用いたテスト
+### Herokuによるデプロイ
