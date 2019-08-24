@@ -11,7 +11,7 @@
 ### ユーザ登録、ログイン・ログアウト機能
 - device_token_authを使用
 ### RSpec, FactorBotを用いたテスト
-### Herokuによるデプロイ
+### [WIP]Herokuによるデプロイ
 
 ## 開発環境
 ### Ruby 2.5.3
