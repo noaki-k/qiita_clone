@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 RSpec.describe 'Mypages', type: :request do
@@ -15,7 +17,7 @@ RSpec.describe 'Mypages', type: :request do
         subject
         res = JSON.parse(response.body)
         expect(res.length).to eq 3
-        expect(res[0].keys).to eq ['id', 'title', 'text', 'created_at', 'user']
+        expect(res[0].keys).to eq %w[id title text created_at user]
         expect(res[0]['id']).to match(article3.id)
         expect(res[1]['id']).to match(article1.id)
         expect(res[2]['id']).to match(article2.id)

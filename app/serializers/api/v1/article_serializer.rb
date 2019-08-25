@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Api::V1::ArticleSerializer < ActiveModel::Serializer
   attributes :id, :title, :text, :updated_at
 

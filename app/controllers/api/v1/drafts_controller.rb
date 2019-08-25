@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 module Api::V1
   class DraftsController < BaseApiController
-    before_action :authenticate_user!, only: [:index, :show]
+    before_action :authenticate_user!, only: %i[index show]
     before_action :set_article, only: [:show]
 
     def index

@@ -1,7 +1,9 @@
+# frozen_string_literal: true
+
 module Api::V1
   class ArticlesController < BaseApiController
-    before_action :set_article, only: [:show,:destroy]
-    before_action :authenticate_user!, only: [:create, :update, :destroy]
+    before_action :set_article, only: %i[show destroy]
+    before_action :authenticate_user!, only: %i[create update destroy]
 
     def index
       articles = Article.published.order(updated_at: :desc)
