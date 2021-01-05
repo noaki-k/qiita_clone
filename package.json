@@ -4,7 +4,7 @@
   "dependencies": {
     "@fortawesome/vue-fontawesome": "^0.1.6",
     "@rails/webpacker": "^4.0.7",
-    "axios": "^0.19.0",
+    "axios": "^0.21.1",
     "highlight.js": "^9.15.9",
     "marked": "^0.7.0",
     "ts-loader": "^6.0.4",
